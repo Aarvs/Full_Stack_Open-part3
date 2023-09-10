@@ -1,44 +1,28 @@
-// const express = require('express')
-// const app = express()
-
-// let notes = [
-//   ...
-// ]
-
-// app.get('/', (request, response) => {
-//   response.send('<h1>Hello World!</h1>')
-// })
-
-// app.get('/api/notes', (request, response) => {
-//   response.json(notes)
-// })
-
-// const PORT = 3001
-// app.listen(PORT, () => {
-//   console.log(`Server running on port ${PORT}`)
-// })
 
 const express = require('express');
 const morgan = require('morgan');
-const { json, urlencoded } = require('body-parser'); // Middleware to parse request body
-const morganBody = require('morgan-body'); // Import morgan-body
 
 const app = express();
+
+// Custom token for logging request body data as JSON
+morgan.token('req-body-json', (req, res) => {
+  if (req.method === 'POST') {
+    return JSON.stringify(req.body);
+  }
+  return '';
+});
+
+// Use the morgan middleware with the custom token
+app.use(
+  morgan(':method :url :status :res[content-length] - :response-time ms :req-body-json')
+);
+
+
 const PORT = 5050;
 const HOSTNAME = "localhost";
 app.use(morgan('tiny'));
 
-// Use morgan middleware with 'morgan-body' to log request bodies
-morganBody(app, {
-  logReqDateTime: false, // Optionally, disable logging request date and time
-  logResponseBody: true, // Log response body as well (optional)
-});
-
-
 app.use(express.json());
-// Middleware to parse JSON and URL-encoded request bodies
-app.use(json());
-app.use(urlencoded({ extended: true }));
 
 let phoneBook = [
   {
