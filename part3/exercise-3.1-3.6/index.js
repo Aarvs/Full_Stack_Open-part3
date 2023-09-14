@@ -20,9 +20,6 @@ app.use(
   morgan(':method :url :status :res[content-length] - :response-time ms :req-body-json')
 );
 
-
-const PORT = process.env.PORT ||3001;
-const HOSTNAME = "localhost";
 app.use(morgan('tiny'));
 
 app.use(express.json());
@@ -113,6 +110,9 @@ app.post('/api/persons', (req, res) =>{
   res.json(newEntry);
 })
 
+const HOSTNAME = "localhost";
+const PORT = process.env.PORT || 3001;
+
 app.listen(PORT, HOSTNAME, () => {
-  console.log(`Server is running at ${PORT} on ${HOSTNAME}`);
+  console.log(`Server is running at on ${HOSTNAME}:${PORT}`);
 });
