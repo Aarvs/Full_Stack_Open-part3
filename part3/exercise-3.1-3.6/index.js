@@ -1,8 +1,11 @@
 
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors());
 
 // Custom token for logging request body data as JSON
 morgan.token('req-body-json', (req, res) => {
@@ -18,7 +21,7 @@ app.use(
 );
 
 
-const PORT = 5050;
+const PORT = process.env.PORT ||3001;
 const HOSTNAME = "localhost";
 app.use(morgan('tiny'));
 
