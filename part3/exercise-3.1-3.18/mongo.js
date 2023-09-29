@@ -35,7 +35,7 @@ const contact = new Contact({
     number: personNumber,
 })
 
-contact.save().then(result =>{
+contact.save().then(() =>{
     console.log(`added ${personName} number ${personNumber} to phonebook`)
 })
 

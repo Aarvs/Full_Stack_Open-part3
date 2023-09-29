@@ -7,6 +7,7 @@ const url = process.env.MONGODB_URI
 console.log('connectint to url: ',url)
 
 mongoose.connect(url).then(result =>{
+    console.log(result);
     console.log('connected to mongodb')
 })
 .catch((error) =>{
@@ -15,8 +16,21 @@ mongoose.connect(url).then(result =>{
 
 const contactSchema = mongoose.Schema({
     id:Number,
-    name: String,
-    number: String,
+    name: {
+        type: String,
+        minLength: 3,
+        require: true
+    },
+    number: {
+        type: String,
+        minLength: 8,
+        validate: {
+            validator: function(v) {
+                return /^\d{2,3}-{8,}$/.test(v)
+            },
+            message: 'Invalid phone number format. It should be like XX-XXXXXXXX or XXX-XXXXXXXXX'
+        }
+    }
 })
 
 contactSchema.set('toJSON',{
